@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuenta regresiva - Cumpleaños Camila</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to top, #b674ca, #8c1eb8);
+      color: #000000;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column; /* Apila los elementos verticalmente */
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    #countdownBox {
+      width: 300px;
+      padding: 20px;
+      background-color: #ce38a1;
+      border: 2px solid #ec3dd5;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #countdown {
+      font-size: 2em;
+      color: #333;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .balloon, .flower {
+      position: absolute;
+      animation: float 6s infinite ease-in-out;
+      z-index: -1;
+    }
+
+    .balloon {
+      width: 50px;
+      height: 70px;
+      background-color: #ff4081;
+      border-radius: 25px 25px 10px 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+
+    .flower {
+      width: 60px;
+      height: 60px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/4/4f/Leucanthemum_vulgare_%28Margarita_com%29.jpg') no-repeat center/cover;
+      border-radius: 50%;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-200px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">Cuenta regresiva para el cumpleaños de Camila 🎉</h1>
+  <!-- Caja de la cuenta regresiva -->
+  <div id="countdownBox">
+    <div id="countdown"></div>
+  </div>
+  <!-- Mensaje final -->
+  <div id="message" class="hidden">
+    <h1>🎂 ¡Feliz cumpleaños Camila! 🎈</h1>
+  </div>
+
+  <script>
+    const countdown = document.getElementById("countdown");
+    const message = document.getElementById("message");
+    const title = document.getElementById("title");
+
+    // Establece la fecha objetivo para hoy a las 12 de la noche
+    const now = new Date();
+    const targetDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0).getTime();
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+      if (distance < 0) {
+        clearInterval(timer);
+        countdown.classList.add("hidden");
+        title.classList.add("hidden");
+        message.classList.remove("hidden");
+        launchDecorations();
+      }
+    }, 1000);
+
+    function launchDecorations() {
+      for (let i = 0; i < 20; i++) {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.style.left = `${Math.random() * 100}vw`;
+        balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+        balloon.style.animationDuration = `${4 + Math.random() * 4}s`;
+        document.body.appendChild(balloon);
+      }
+
+      for (let i = 0; i < 10; i++) {
+        const flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.style.left = `${Math.random() * 100}vw`;
+        flower.style.animationDuration = `${5 + Math.random() * 4}s`;
+        document.body.appendChild(flower);
+      }
+    }
+  </script>
+</body>
+</html>
